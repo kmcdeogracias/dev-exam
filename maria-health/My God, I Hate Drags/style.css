@@ -1,0 +1,11 @@
+body {
+	font-family: Arial
+}
+.content-body {
+	padding: 10px;
+	border: solid;
+	margin-bottom: 10px;
+	border-width: 1px;
+	border-color: #e4d7d7;
+	margin-top: 20px;
+}
