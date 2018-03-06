@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <title>Axios</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -16,31 +17,46 @@
             <hr />
             <div class="row">
               <div class="col-sm-3">
-                <input type="text" class="form-control" placeholder="Search by generic or brand name" v-model="searchBy">
+                <input type="text" class="form-control" placeholder="Search by generic or brand name" v-model="search_by">
+              </div>
+              <div class="col-sm-3">
+                <div class="filter">
+                  <select name="basic-dropdown" v-model="filter_by">
+                    <option>Oral</option>
+                    <option>Topical</option>
+                    <option>Intravenous</option>
+                    <option>Dental</option>
+                    <option>Respiratory</option>
+                    <option>Opthalmic</option>
+                    <option>Intramuscular</option>
+                    <option>Subcutaneous</option>
+                    <option>Nasal</option>
+                    <option>Rectal</option>
+                  </select>
+                </div>
               </div>
             </div>
             <div class="row" v-for="i in rowCount">
-              <span v-for="item in itemCountInRow(i)">
-                <div class="col-lg-4">
-                  <div class="content-body">
-                    <p class="text-left">ID: {{item.id}}</p>
-                    <p class="text-left">Generic Name: {{item.generic_name}}</p>
+              <div v-for="item in itemCountInRow(i)" class="col-lg-4 timeline-panel">
+                <div class="content-body timeline-label">
+                  <!-- <p class="text-left">ID: {{item.id}}</p> -->
+                  <h4 class="text-left timeline-heading">{{item.generic_name}}</h4>
+                  <div class="timeline-body">
                     <p class="text-left">Brand Name: {{item.brand_name}}</p>
                     <p class="text-left">Product Type: {{item.product_type}}</p>
-                    <button type="button" class="btn btn-success">View details</button>
-                    <!--
                     <p class="text-left">Route of administration: {{item.route}}</p>
                     <p class="text-left">Purpose: {{item.purpose}}</p>
                     <p class="text-left">Indications and usage: {{item.indications_and_usage}}</p>
                     <p class="text-left">Warnings: {{item.warnings}}</p>
                     <p class="text-left">Active ingredients: {{item.active_ingredients}}</p>
                     <p class="text-left">Inactive ingredients: {{item.inactive_ingredients}}</p>
-                    <p class="text-left">Storage and handling: {{item.storage_and_handling}}</p> -->
-                  </div>
+                    <p class="text-left">Storage and handling: {{item.storage_and_handling}}</p>
+                  </div> 
                 </div>
-              </span>
-              <span><p>{{error_msg}}</p></span>
+              </div>
             </div>
+            <div v-model="error_msg"><p>{{error_msg}}</p></div>
+            <i  v-show="loading" class="fa fa-spinner fa-spin"></i>
             </div>
           </div>
         </div>

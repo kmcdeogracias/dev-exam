@@ -1,35 +1,68 @@
 var fda_api = "https://api.fda.gov/drug/label.json?"
-var limit = 10
+var limit = 20
 
 new Vue({
 	el: "#app",
 	data: {
-		searchBy: '',
-		brandName: '',
-		itemsPerRow: 3,
+		loading: false,
+		search_by: this.search_by,
+		filter_by: this.filter_by,
+		error_msg: '',
+		items_per_row: 3,
 		items: []
+	},
+	created () {
+		this.getDrugs(this.items)
 	},
 	computed:{
 		rowCount:function(){
-			return Math.ceil(this.items.length / this.itemsPerRow);
+			return Math.ceil(this.items.length / this.items_per_row);
 		},
 	},
 	watch: {
-		searchBy: function() {
+		search_by: function() {
 			this.items = []
-			this.getDrugs(this.items, this.searchBy)
+			this.getDrugs(this.items, this.search_by, this.filter_by)
+		},
+		filter_by: function() {
+			this.items = []
+			this.getDrugs(this.items, this.search_by, this.filter_by)
 		},
 	},
 	methods: {
 		itemCountInRow:function(index) {
-     		return this.items.slice((index - 1) * this.itemsPerRow, index * this.itemsPerRow)
+     		return this.items.slice((index - 1) * this.items_per_row, index * this.items_per_row)
     	},
-		getDrugs: function(items, searchBy=null) {
-			api_url = fda_api + "limit=" + limit
+		getDrugs: function(items, search_by=null, filter_by=null) {
 			
-			if (searchBy != null) {
-				api_url = api_url + "&search=openfda.generic_name:" + searchBy
-				api_url = api_url + "+search=openfda.brand_name:" + searchBy
+			var search_query = null
+			var filter_query = null
+			this.loading = true
+			
+			console.log("search_by:" + search_by)
+			console.log("filter_by:" + filter_by)
+			console.log("loading:" + this.loading)
+
+			if (search_by == '') {
+				search_by = null
+			}
+
+			api_url = fda_api + "limit=" + limit + "&search="
+
+			if (search_by != null) {
+				search_query = "openfda.generic_name:" + search_by + "+openfda.brand_name:" + search_by
+			}
+
+			if (filter_by != null) {
+				filter_query = "openfda.route:" + filter_by
+			}
+
+			if (search_query != null && filter_query != null) {
+				api_url = api_url + search_query + "+AND+" + filter_query 
+			} else if (search_query != null) {
+				api_url = api_url + search_query
+			} else if (filter_query != null) {
+				api_url = api_url + filter_query
 			}
 
 			console.log(api_url)
@@ -57,20 +90,25 @@ new Vue({
 							product_type: product_type,
 							route: route,
 							purpose: purpose,
-							indications_and_usage: inications_and_usage,
+							indications_and_usage: indications_and_usage,
 							warnings: warnings,
 							active_ingredients: active_ingredients,
 							inactive_ingredients: indications_and_usage,
 							storage_and_handling: storage_and_handling
 						})
 					}
-				})
+
+					this.loading = false
+					console.log("after loading: " + this.loading)
+				}.bind(this),1000)
 				.catch(function(error) {
+					status = error.response.status
+					if (status == 404) {
+						this.error_msg = "No more products to display"
+					}
+					this.loading = false
 					console.log("An error occured")
-				})
+				}.bind(this), 1000)
 		},
 	},
-	beforeMount() {
-		this.getDrugs(this.items)
-	}
 })

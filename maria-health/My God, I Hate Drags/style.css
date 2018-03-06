@@ -1,5 +1,6 @@
 body {
-	font-family: Arial
+	font-family: Arial !important;
+	font-size: 15px;
 }
 .content-body {
 	padding: 10px;
@@ -8,4 +9,18 @@ body {
 	border-width: 1px;
 	border-color: #e4d7d7;
 	margin-top: 20px;
+	height: 100%;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+.row > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+}
+
+.timeline-label {
+	background: #fdfef7;
 }
