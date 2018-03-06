@@ -39,24 +39,26 @@
             <div class="row" v-for="i in rowCount">
               <div v-for="item in itemCountInRow(i)" class="col-lg-4 timeline-panel">
                 <div class="content-body timeline-label">
-                  <!-- <p class="text-left">ID: {{item.id}}</p> -->
-                  <h4 class="text-left timeline-heading">{{item.generic_name}}</h4>
+                   <!--<p class="text-left">ID: {{item.id}}</p>-->
+                  <h4 class="text-left generic-name">{{item.generic_name}}</h4>
                   <div class="timeline-body">
                     <p class="text-left">Brand Name: {{item.brand_name}}</p>
                     <p class="text-left">Product Type: {{item.product_type}}</p>
-                    <p class="text-left">Route of administration: {{item.route}}</p>
-                    <p class="text-left">Purpose: {{item.purpose}}</p>
-                    <p class="text-left">Indications and usage: {{item.indications_and_usage}}</p>
-                    <p class="text-left">Warnings: {{item.warnings}}</p>
-                    <p class="text-left">Active ingredients: {{item.active_ingredients}}</p>
-                    <p class="text-left">Inactive ingredients: {{item.inactive_ingredients}}</p>
-                    <p class="text-left">Storage and handling: {{item.storage_and_handling}}</p>
+                    <!--<p class="text-left">Route of administration: {{item.route}}</p>-->
+                    <!--<p class="text-left">Purpose: {{item.purpose}}</p>-->
+                    <!--<p class="text-left">Indications and usage: {{item.indications_and_usage}}</p>-->
+                    <!--<p class="text-left">Warnings: {{item.warnings}}</p>-->
+                    <!--<p class="text-left">Active ingredients: {{item.active_ingredients}}</p>-->
+                    <!--<p class="text-left">Inactive ingredients: {{item.inactive_ingredients}}</p>-->
+                    <!--<p class="text-left">Storage and handling: {{item.storage_and_handling}}</p>-->
                   </div> 
                 </div>
               </div>
             </div>
+            <div class="row">
+              <div v-show="loading" class="col-lg-12"><span class="cp-spinner cp-round center-block"></span></div>
+            </div>
             <div v-model="error_msg"><p>{{error_msg}}</p></div>
-            <i  v-show="loading" class="fa fa-spinner fa-spin"></i>
             </div>
           </div>
         </div>
